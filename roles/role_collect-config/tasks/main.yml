@@ -1,0 +1,41 @@
+---
+- name: Extract hostname
+  set_fact:
+    hostname: "{{ ansible_facts['fqdn'] }}"
+
+- name: Extract total CPU count
+  set_fact:
+    total_cpu: "{{ ansible_facts['processor_count'] }}"
+
+- name: Extract total memory
+  set_fact:
+    total_memory: "{{ ansible_facts['memtotal_mb'] }}"
+
+- name: Extract total disk space
+  set_fact:
+    total_disk: "{{ ansible_mounts | map(attribute='size_total') | sum | float / 1024 / 1024 / 1024 }}"
+
+- name: Compile server information
+  set_fact:
+    server_info: |
+      Hostname: {{ hostname }}
+      Total CPU: {{ total_cpu }}
+      Total Memory: {{ total_memory }} MB
+      Total Disk: {{ total_disk | int }} GB
+    
+- name: Print Config Details
+  debug:
+    msg: "{{ server_info }}"
+  when: server_info is defined
+
+- name: Email the Config Report
+  email:
+    host: smtp.gmail.com
+    port: 587
+    username: pimple.rahul4@gmail.com
+    password: Raghav#987
+    to: rahul.s.pimple@kp.org
+    subjest: "AAP Server configuration Report"
+    Body: "{{ server_info }}"
+    secure: starttls
+  deligate_to: localhost
