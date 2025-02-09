@@ -29,13 +29,13 @@
   when: server_info is defined
 
 - name: Email the Config Report
-  email:
+  mail:
     host: smtp.gmail.com
     port: 587
     username: pimple.rahul4@gmail.com
     password: Raghav#987
     to: rahul.s.pimple@kp.org
-    subjest: "AAP Server configuration Report"
-    Body: "{{ server_info }}"
+    subject: "AAP Server configuration Report"
+    body: "{{ server_info }}"
     secure: starttls
   deligate_to: localhost
