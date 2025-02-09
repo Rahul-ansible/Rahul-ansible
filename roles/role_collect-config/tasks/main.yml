@@ -33,7 +33,7 @@
     host: smtp.gmail.com
     port: 587
     username: pimple.rahul4@gmail.com
-    password: Raghav#987
+    password: 
     to: rahul.s.pimple@kp.org
     subject: "AAP Server configuration Report"
     body: "{{ server_info }}"
